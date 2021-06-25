@@ -1,0 +1,10 @@
+D:\Users\CHIHHAOLAI\Documents\Visual Studio 2013\Projects\C_Sharp_Advance\Study_DataStructure\bin\Debug\Study_DataStructure.exe.config
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\bin\Debug\Study_DataStructure.exe.config
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\bin\Debug\Study_DataStructure.exe
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\bin\Debug\Study_DataStructure.pdb
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\obj\Debug\Study_DataStructure.csprojResolveAssemblyReference.cache
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\obj\Debug\Study_DataStructure.Form_Study_DataStructure.resources
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\obj\Debug\Study_DataStructure.Properties.Resources.resources
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\obj\Debug\Study_DataStructure.csproj.GenerateResource.Cache
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\obj\Debug\Study_DataStructure.exe
+C:\GitHub\C_Sharp_Advance\Study_DataStructure\obj\Debug\Study_DataStructure.pdb
