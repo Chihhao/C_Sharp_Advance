@@ -250,7 +250,7 @@ namespace Study_DataStructure {
             stringSortedSet.Add("three");
             stringSortedSet.Add("four");
             stringSortedSet.Add("three");    // 重複元素，不會加入
-
+            
             foreach (string item in stringSortedSet) {
                 Console.WriteLine(item);
             }

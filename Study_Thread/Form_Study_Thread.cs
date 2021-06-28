@@ -95,7 +95,8 @@ namespace Study_Thread{
             NoReturnWithPara<string> method5 = new NoReturnWithPara<string>(DoNothing_5);
             method5.Invoke("123");
 
-            //----Lambda表達式的演進------------------------------
+            // ----Lambda表達式的演進------------------------------
+            // Lambda表達式的精神就是==匿名函數==
             //.net 1.0
             NoReturnWithPara method6 = new NoReturnWithPara(DoNothing_2);
             method6.Invoke(2, 3);
@@ -169,12 +170,14 @@ namespace Study_Thread{
         
         private void do_something_long(string name){
             string threadID = Thread.CurrentThread.ManagedThreadId.ToString("00");
-            Console.WriteLine(name + "複雜任務開始 [" + threadID + "] " + DateTime.Now.TimeOfDay);
+            string s1 = DateTime.Now.TimeOfDay.ToString();
+            Console.WriteLine(name + "複雜任務開始 [" + threadID + "] " + s1);
             long lResult = 0;
             for (int i = 0; i < 1000000000; i++) {
                 lResult += i;
             }
-            Console.WriteLine(name + "複雜任務結束 [" + threadID + "] " + DateTime.Now.TimeOfDay);
+            string s2 = DateTime.Now.TimeOfDay.ToString();
+            Console.WriteLine(name + "複雜任務結束 [" + threadID + "] " + s2);
         }
 
         /// 同步方法與異步方法
@@ -252,7 +255,7 @@ namespace Study_Thread{
         }
 
         /// .net 1.0 Thread
-        private void button3_Click(object sender, EventArgs e) {
+        private void Thread_Click(object sender, EventArgs e) {
             Console.WriteLine("---->1.0 按鈕開始 [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "] " + DateTime.Now.TimeOfDay + "<----");
             
             Action           action = () => do_something_long("Jack ");
@@ -301,10 +304,11 @@ namespace Study_Thread{
             //thread_1.Resume();     //喚醒 (不一定能馬上喚醒)
             //thread_1.Abort();      //停止 (不一定能馬上停止) (並且有些事情是停不住的)
             //等等
+
         }
 
         /// .net 2.0 Thread Pool
-        private void button4_Click(object sender, EventArgs e) {
+        private void Thread_Pool_Click(object sender, EventArgs e) {
             Console.WriteLine("---->2.0 按鈕開始 [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "] " + DateTime.Now.TimeOfDay + "<----");
             //1.0 Thread
             //    (1) thread提供了太多的API，像是給了三歲小孩一把槍，造成很多誤傷
@@ -320,31 +324,11 @@ namespace Study_Thread{
             //    //只要一行，就可以啟動線程
             //    //不需要操作線程(創建/啟動/銷毀)，交給.net處理
             //    ThreadPool.QueueUserWorkItem(t => do_something_long("Eric "));
-       
+
             //    //在2.0的 ThreadPool API中，沒辦法操作 暫停/恢復/銷毀/... 等動作
             //    //ThreadPool 啥都沒有，沒有操作線程的方法
             //    //把槍收走，避免誤傷！
             //    //連刀都不給你，只給一把筷子，你就傷害不了別人了！
-            //}
-            #endregion
-            
-            #region ManualResetEvent - 一個寫多線程時，常用的工具
-            //{
-            //    ManualResetEvent manualResetEvent = new ManualResetEvent(false);
-            //    //這是一個類，包含了一個屬性，可初始化為false
-            //    //可通過Set()，把屬性變true；可通過Reset()，把屬性變false
-            //    //若屬性為false，則WaitOne()過不去，卡UI
-            //    //若屬性為true，WaitOne()就可以過去了
-
-            //    //藉由ManualResetEvent，可以做到等待ThreadPool的線程完成
-            //    ThreadPool.QueueUserWorkItem(t => {
-            //        do_something_long("Bill ");
-            //        Console.WriteLine("Bill 完成了 [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "] " + DateTime.Now.TimeOfDay + "<----");
-            //        manualResetEvent.Set();  //將屬性設置為true
-            //    });
-            //    manualResetEvent.WaitOne();
-            //    //這雖然可以用，但不是一個好主意
-            //    //最好不要阻礙線程池的線程，這感覺像是以前malloc後，一定要跟著release
             //}
             #endregion
 
@@ -356,28 +340,72 @@ namespace Study_Thread{
                 int minCompletionPortThread; //線程池中的非同步 I/O 線程數最小值
                 ThreadPool.GetMaxThreads(out maxWorkerThreads, out maxCompletionPortThread); //call by ref
                 ThreadPool.GetMinThreads(out minWorkerThreads, out minCompletionPortThread); //call by ref
-                Console.WriteLine("maxWorkerThreads=" + maxWorkerThreads);
-                Console.WriteLine("maxCompletionPortThread=" + maxCompletionPortThread);
-                Console.WriteLine("minWorkerThreads=" + minWorkerThreads);
-                Console.WriteLine("minCompletionPortThread=" + minCompletionPortThread);
+                Console.WriteLine("maxWorkerThreads        = " + maxWorkerThreads);
+                Console.WriteLine("maxCompletionPortThread = " + maxCompletionPortThread);
+                Console.WriteLine("minWorkerThreads        = " + minWorkerThreads);
+                Console.WriteLine("minCompletionPortThread = " + minCompletionPortThread);
 
-                //可以自己設定線程池的大小
-                ThreadPool.SetMaxThreads(16, 16);
+                Console.WriteLine("可以自己設定線程池的大小");
+                //ThreadPool.SetMaxThreads(16, 16);
+                ThreadPool.SetMaxThreads(1024, 1024);
                 ThreadPool.SetMinThreads(5, 5);
                 ThreadPool.GetMaxThreads(out maxWorkerThreads, out maxCompletionPortThread);
                 ThreadPool.GetMinThreads(out minWorkerThreads, out minCompletionPortThread);
-                Console.WriteLine("maxWorkerThreads=" + maxWorkerThreads);
-                Console.WriteLine("maxCompletionPortThread=" + maxCompletionPortThread);
-                Console.WriteLine("minWorkerThreads=" + minWorkerThreads);
-                Console.WriteLine("minCompletionPortThread=" + minCompletionPortThread);
+                Console.WriteLine("maxWorkerThreads        = " + maxWorkerThreads);
+                Console.WriteLine("maxCompletionPortThread = " + maxCompletionPortThread);
+                Console.WriteLine("minWorkerThreads        = " + minWorkerThreads);
+                Console.WriteLine("minCompletionPortThread = " + minCompletionPortThread);
             }
-             #endregion
+            #endregion
 
+            #region ManualResetEvent - 一個寫多線程時，常用的工具
+            //{
+            //    ManualResetEvent manualResetEvent = new ManualResetEvent(false);
+            //    //這是一個類，包含了一個bool屬性，可初始化為false
+            //    //可通過Set()，把屬性變true；可通過Reset()，把屬性變false
+            //    //若屬性為false，則WaitOne()過不去，卡UI
+            //    //若屬性為true，WaitOne()就可以過去了
+
+            //    //藉由ManualResetEvent，可以做到等待ThreadPool的線程完成
+            //    ThreadPool.QueueUserWorkItem(t => {
+            //        do_something_long("Bill ");
+            //        Console.WriteLine("Bill 完成了 [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "] " + DateTime.Now.TimeOfDay + "<----");
+            //        manualResetEvent.Set();  //將屬性設置為true
+            //    });
+            //    manualResetEvent.WaitOne();
+
+            //    //這雖然可以用，但不是一個好主意
+            //}
+            #endregion
+
+            #region 最好不要阻礙線程池的線程
+            //{
+            //    ManualResetEvent manualResetEvent = new ManualResetEvent(false);
+
+            //    for (int i = 0; i < 20; i++) {
+            //        int k = i;
+            //        ThreadPool.QueueUserWorkItem(t => {
+            //            Console.WriteLine("k=" + k);
+            //            if (k < 18) {
+            //                manualResetEvent.WaitOne(); 
+            //            }
+            //            else {
+            //                manualResetEvent.Set();  //將屬性設置為true
+            //            }
+            //        });
+            //    }
+            //    if (manualResetEvent.WaitOne()) {
+            //        Console.WriteLine("沒有死鎖");
+            //    }
+
+            //}
+            #endregion
+            
             Console.WriteLine("---->2.0 按鈕結束 [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "] " + DateTime.Now.TimeOfDay + "<----");
         }
 
         /// .net 3.0 Task <目前主流寫法>
-        private void button5_Click(object sender, EventArgs e) {
+        private void Task_Click(object sender, EventArgs e) {
             //3.0 Task
             //    (1) Task是基於ThreadPool封裝的
             //    (2) 2.0時，ThreadPool的API功能太少，3.0的Task增加了多個API，滿足各種需求
@@ -385,18 +413,18 @@ namespace Study_Thread{
             Console.WriteLine("---->3.0 按鈕開始 [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "] " + DateTime.Now.TimeOfDay + "<----");
 
             #region Start() - 線程啟動方式
-            //{
-            //    //Start() - 啟動方式 1，取得實例，然後啟動
-            //    Task task = new Task(() => do_something_long("Jack-1 "));
-            //    task.Start();
+            {
+                //Start() - 啟動方式 1，取得實例，然後啟動
+                Task task = new Task(() => do_something_long("Jack-1 "));
+                task.Start();
 
-            //    //Start() - 啟動方式 2，可以一行啟動，但取不到實例
-            //    new Task(() => do_something_long("Jack-2 ")).Start();
+                //Start() - 啟動方式 2，可以一行啟動，但取不到實例
+                new Task(() => do_something_long("Jack-2 ")).Start();
 
-            //    //Run() - 啟動方式 3 - 這個方法在 .net 4.5 才出現
-            //    Task.Run(() => do_something_long("Eric-1 "));               //可以一行啟動
-            //    Task task_1 = Task.Run(() => do_something_long("Eric-2 ")); //可以一行啟動，並取得實例
-            //}
+                //Run() - 啟動方式 3 - 這個方法在 .net 4.5 才出現
+                Task.Run(() => do_something_long("Jack-3 "));               //可以一行啟動
+                Task task_1 = Task.Run(() => do_something_long("Jack-4 ")); //可以一行啟動，並取得實例
+            }
             #endregion
 
             #region 控制線程數量也是可以用的，不過最好不要設定，用預設的就好
@@ -409,7 +437,7 @@ namespace Study_Thread{
             //    //Task.Run(() => do_something_long("Bill ")).ContinueWith(t => {
             //    //    Console.WriteLine("Bill 工作做完了   [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "]");
             //    //});
-                
+
             //    Task task = new Task(() => do_something_long("Bill "));
             //    task.ContinueWith(t => {
             //        Console.WriteLine("Bill 工作做完了   [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "]");
@@ -573,17 +601,17 @@ namespace Study_Thread{
         /// .net 4.5 await / async  (開頭的a是小寫)
         /// await / async 這兩個是成對的，要用一起用，單獨使用是沒有意義的
         /// 這個就是讓你寫的方便點，沒有什麼特殊的功能 --> 用寫同步的方式來寫異步
-        private async void button8_Click(object sender, EventArgs e) {
+        private async void await_async_Click(object sender, EventArgs e) {
             Console.WriteLine("[主線程]---->4.5 Await / Async 按鈕開始 [" + Thread.CurrentThread.ManagedThreadId.ToString("00") + "] " + DateTime.Now.TimeOfDay + "<----");
 
             #region 所有的方法都可以用 async 修飾
-            //{
-            //    //修飾前 private void NoReturnNoAwait()
-            //    //修飾後 private async void NoReturnNoAwait()
-            //    //只要方法被 Async 修飾了，那麼裡面就要出現 Await，否則會有綠色底線，不過可以通過編譯
-            //    //Async方法裡面沒有Await是沒有意義的                
-            //    NoReturnNoAwait();
-            //}
+            {
+                //修飾前 private void NoReturnNoAwait()
+                //修飾後 private async void NoReturnNoAwait()
+                //只要方法被 Async 修飾了，那麼裡面就要出現 Await，否則會有綠色底線，不過可以通過編譯
+                //Async方法裡面沒有Await是沒有意義的                
+                NoReturnNoAwait();
+            }
             #endregion
 
             #region 基本使用方法 (1) 沒有回傳值

@@ -1,0 +1,9 @@
+C:\GitHub\C_Sharp_Advance\Study_Thread\bin\Debug\Study_Thread.exe.config
+C:\GitHub\C_Sharp_Advance\Study_Thread\bin\Debug\Study_Thread.exe
+C:\GitHub\C_Sharp_Advance\Study_Thread\bin\Debug\Study_Thread.pdb
+C:\GitHub\C_Sharp_Advance\Study_Thread\obj\Debug\Study_Thread.csprojResolveAssemblyReference.cache
+C:\GitHub\C_Sharp_Advance\Study_Thread\obj\Debug\Study_Thread.Form_Study_Thread.resources
+C:\GitHub\C_Sharp_Advance\Study_Thread\obj\Debug\Study_Thread.Properties.Resources.resources
+C:\GitHub\C_Sharp_Advance\Study_Thread\obj\Debug\Study_Thread.csproj.GenerateResource.Cache
+C:\GitHub\C_Sharp_Advance\Study_Thread\obj\Debug\Study_Thread.exe
+C:\GitHub\C_Sharp_Advance\Study_Thread\obj\Debug\Study_Thread.pdb
